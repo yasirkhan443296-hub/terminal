@@ -35,3 +35,47 @@ New-Item scripts\ingest_documents.py, scripts\build_index.py, scripts\run_evalua
 New-Item docker\Dockerfile -ItemType File
 
 New-Item .env.example, .gitignore, requirements.txt, README.md, pyproject.toml -ItemType File
+
+
+
+# LLM & LangChain
+langchain
+langchain-core
+langchain-community
+langchain-groq
+langgraph
+
+# Configuration & validation
+python-dotenv
+pydantic
+pydantic-settings
+
+# Embeddings & Vector Search
+sentence-transformers
+faiss-cpu
+
+# Document processing
+pypdf
+python-docx
+beautifulsoup4
+
+# Web Search
+tavily-python
+
+# Database
+sqlalchemy
+
+# Frontend
+streamlit
+
+# Evaluation
+ragas
+deepeval
+
+# Testing
+pytest
+
+# Utilities
+requests
+numpy
+pandas
