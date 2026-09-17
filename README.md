@@ -79,3 +79,123 @@ pytest
 requests
 numpy
 pandas
+
+
+NEXUS/
+│
+├── app/
+│   │
+│   ├── agents/
+│   │   ├── router_agent.py
+│   │   ├── rag_agent.py
+│   │   ├── research_agent.py
+│   │   ├── sql_agent.py
+│   │   └── workflow.py
+│   │
+│   ├── tools/
+│   │   ├── web/
+│   │   │   └── search_tool.py
+│   │   │
+│   │   ├── rag/
+│   │   │   └── retrieval_tool.py
+│   │   │
+│   │   ├── database/
+│   │   │   └── sql_tool.py
+│   │   │
+│   │   └── utility/
+│   │       ├── calculator_tool.py
+│   │       └── document_tool.py
+│   │
+│   ├── ingestion/
+│   │   ├── loaders.py
+│   │   ├── cleaner.py
+│   │   ├── chunker.py
+│   │   ├── metadata.py
+│   │   └── pipeline.py
+│   │
+│   ├── retrieval/
+│   │   ├── vector_search.py
+│   │   ├── keyword_search.py
+│   │   ├── hybrid_search.py
+│   │   ├── reranker.py
+│   │   └── retriever.py
+│   │
+│   ├── embeddings/
+│   │   └── embedding_model.py
+│   │
+│   ├── generation/
+│   │   ├── llm.py
+│   │   ├── prompts.py
+│   │   └── response_generator.py
+│   │
+│   ├── guardrails/
+│   │   ├── input_guardrails.py
+│   │   ├── output_guardrails.py
+│   │   ├── pii_detection.py
+│   │   └── citation_checker.py
+│   │
+│   ├── evaluation/
+│   │   ├── ragas_eval.py
+│   │   ├── deepeval_eval.py
+│   │   ├── metrics.py
+│   │   └── test_dataset.json
+│   │
+│   ├── memory/
+│   │   └── conversation_memory.py
+│   │
+│   ├── database/
+│   │   ├── connection.py
+│   │   ├── models.py
+│   │   └── repository.py
+│   │
+│   ├── config/
+│   │   ├── settings.py
+│   │   └── logging.py
+│   │
+│   └── utils/
+│       ├── helpers.py
+│       ├── exceptions.py
+│       └── constants.py
+│
+├── frontend/
+│   ├── app.py
+│   ├── components/
+│   │   ├── chat.py
+│   │   ├── sources.py
+│   │   └── sidebar.py
+│   └── pages/
+│       ├── chat_page.py
+│       ├── documents_page.py
+│       └── evaluation_page.py
+│
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   ├── indexes/
+│   └── evaluation/
+│
+├── tests/
+│   ├── unit/
+│   │   ├── test_chunking.py
+│   │   ├── test_retrieval.py
+│   │   ├── test_reranker.py
+│   │   ├── test_agents.py
+│   │   └── test_guardrails.py
+│   │
+│   └── integration/
+│       ├── test_rag_pipeline.py
+│       └── test_agent_workflow.py
+│
+├── scripts/
+│   ├── ingest_documents.py
+│   ├── build_index.py
+│   └── run_evaluation.py
+│
+├── docker/
+│   └── Dockerfile
+│
+├── .env.example
+├── .gitignore
+├── requirements.txt
+├── README.md
+└── pyproject.toml
