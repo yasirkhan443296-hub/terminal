@@ -3,21 +3,21 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_groq import ChatGroq
 
 
-class ResearchResult(BaseModel):
+class RAGResult(BaseModel):
     answer: str = Field(
-        description="The final research answer."
+        description="The final answer based on the retrieved documents."
     )
 
     sources: list[str] = Field(
-        description="List of source URLs used for the research."
+        description="List of document sources used to answer the query."
     )
 
     summary: str = Field(
-        description="A short summary of the research."
+        description="A concise summary of the retrieved information."
     )
 
 
-class ResearchAgent:
+class RAGAgent:
 
     def __init__(self, model_name: str):
         self.llm = ChatGroq(
@@ -25,24 +25,31 @@ class ResearchAgent:
             temperature=0
         )
 
-        self.researcher = self.llm.with_structured_output(
-            ResearchResult
+        self.rag = self.llm.with_structured_output(
+            RAGResult
         )
 
-    def research(self, query: str) -> ResearchResult:
+    def answer(self, query: str) -> RAGResult:
         if not query.strip():
             raise ValueError("Query cannot be empty.")
 
-        system_prompt = """You are the research agent of NEXUS.
-Analyze research information and produce a clear, factual answer
-with a concise summary and sources."""
+        system_prompt = """You are the RAG Agent of NEXUS.
+
+Answer the user's question using information retrieved from
+the knowledge base.
+
+Do not invent information.
+If the provided context does not contain enough information,
+clearly state that.
+
+Return a clear answer, a concise summary, and the relevant sources.
+"""
 
         messages = [
             SystemMessage(content=system_prompt),
             HumanMessage(content=query)
         ]
 
-        result = self.researcher.invoke(messages)
+        result = self.rag.invoke(messages)
 
         return result
-
