@@ -1,63 +1,48 @@
-from typing import Literal
-
 from pydantic import BaseModel, Field
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_groq import ChatGroq
 
 
-class RouterDecision(BaseModel):
-    destination: Literal[
-        "rag_agent",
-        "research_agent",
-        "sql_agent",
-    ] = Field(
-        description="The agent that should handle the user's query."
+class ResearchResult(BaseModel):
+    answer: str = Field(
+        description="The final research answer."
     )
 
-    reasoning: str = Field(
-        description="Short explanation for the routing decision."
+    sources: list[str] = Field(
+        description="List of source URLs used for the research."
+    )
+
+    summary: str = Field(
+        description="A short summary of the research."
     )
 
 
-class RouterAgent:
-    """Routes user queries to the appropriate specialized agent."""
+class ResearchAgent:
 
     def __init__(self, model_name: str):
         self.llm = ChatGroq(
             model=model_name,
-            temperature=0,
+            temperature=0
         )
 
-        self.router = self.llm.with_structured_output(
-            RouterDecision
+        self.researcher = self.llm.with_structured_output(
+            ResearchResult
         )
 
-    def route(self, query: str) -> RouterDecision:
+    def research(self, query: str) -> ResearchResult:
         if not query.strip():
             raise ValueError("Query cannot be empty.")
 
-        system_prompt = """
-You are the Router Agent of NEXUS.
-
-Choose the correct specialized agent.
-
-rag_agent:
-Questions about uploaded documents and knowledge base.
-
-research_agent:
-Web research, current information, news, and external information.
-
-sql_agent:
-Database questions, structured data, and SQL queries.
-
-Choose exactly one agent.
-Do not answer the user's question.
-Only return the routing decision.
-"""
+        system_prompt = """You are the research agent of NEXUS.
+Analyze research information and produce a clear, factual answer
+with a concise summary and sources."""
 
         messages = [
             SystemMessage(content=system_prompt),
-            HumanMessage(content=query),
+            HumanMessage(content=query)
         ]
 
-        return self.router.invoke(messages)
+        result = self.researcher.invoke(messages)
+
+        return result
+
